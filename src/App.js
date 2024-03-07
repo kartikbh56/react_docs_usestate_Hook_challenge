@@ -4,11 +4,13 @@ import { sculptureList } from "./data";
 export default function App() {
   const [index, setIndex] = useState(0);
   const [toggledetails, settoggleDetails] = useState(false);
+  let hasPrev = index > 0;
+  let hasNext = index < sculptureList.length - 1;
   function handleNext() {
-    index < sculptureList.length - 1 && setIndex(index + 1);
+    hasNext && setIndex(index + 1);
   }
   function handlePrevious() {
-    index > 0 && setIndex(index - 1);
+    hasPrev > 0 && setIndex(index - 1);
   }
   function handleDetails() {
     settoggleDetails(!toggledetails);
@@ -20,19 +22,23 @@ export default function App() {
         <button
           onClick={handlePrevious}
           style={{ display: "inline-block", marginRight: "10px" }}
+          disabled={!hasPrev}
         >
           Previous
         </button>
         <button
           onClick={handleNext}
           style={{ display: "inline-block", marginRight: "10px" }}
+          disabled={!hasNext}
         >
           Next
         </button>
       </div>
       <h1>{sculpture.name}</h1>
       <h2>{sculpture.artist}</h2>
-      <button onClick={handleDetails}>Show details</button>
+      <button onClick={handleDetails}>
+        {toggledetails ? "Hide" : "Show"} details
+      </button>
       {toggledetails && <p>{sculpture.description}</p>}
       <img src={sculpture.url} alt={sculpture.alt} />
       <div>
